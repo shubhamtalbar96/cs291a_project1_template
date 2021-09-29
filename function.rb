@@ -29,17 +29,23 @@ def main(event:, context:)
     case event["path"]
     when "/"
       response(body: event, status: 405)
+    when "/token"
+      response(body: event, status: 405)
     end  
 
   when "OPTIONS"
     case event["path"]
     when "/"
       response(body: event, status: 405)
+    when "/token"
+      response(body: event, status: 405)
     end  
 
   when "PATCH"
     case event["path"]
     when "/"
+      response(body: event, status: 405)
+    when "/token"
       response(body: event, status: 405)
     end  
 
@@ -53,9 +59,12 @@ def main(event:, context:)
     case event["path"]
     when "/"
       response(body: event, status: 405)
+    when "/token"
+      response(body: event, status: 405)
     end  
 
   end
+
 end
 
 def response(body: nil, status: 200)
