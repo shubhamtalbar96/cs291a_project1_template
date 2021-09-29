@@ -63,9 +63,6 @@ def main(event:, context:)
     when "/"
       response(body: event, status: 405)
     when "/token"
-      print "event: "
-      print event
-
       case event["headers"]["content-type"]
       when ""
         response(body: event, status: 415)
