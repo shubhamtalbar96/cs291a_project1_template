@@ -8,10 +8,15 @@ def main(event:, context:)
   
   keys = event["headers"].keys
   contentType = "content-type"
+  authorization = "authorization"
 
   for item in keys
     if item.casecmp contentType
       event["headers"]["content-type"] = event["headers"][item] 
+    end
+
+    if item.casecmp authorization
+      event["headers"]["authorization"] = event["headers"][item]
     end
   end
 
