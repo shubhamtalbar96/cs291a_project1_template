@@ -4,12 +4,8 @@ require 'json'
 require 'jwt'
 require 'pp'
 
-def main(event:, context:)
-  
-  JSON parsedEvent = event.to_json
-
-  if parsedEvent["httpMethod"] == "GET"
-
+def main(event:, context:)  
+  if event["httpMethod"] == "GET"
     case parsedEvent["path"]
     when "/"
       response(body: event, status: 403)
@@ -19,8 +15,6 @@ def main(event:, context:)
       response(body: event, status: 404)
     end
   end
-
-  response(body: event, status: 200)
 end
 
 def response(body: nil, status: 200)
@@ -31,9 +25,9 @@ def response(body: nil, status: 200)
 end
 
 if $PROGRAM_NAME == __FILE__
-  # If you run this file directly via `ruby function.rb` the following code
-  # will execute. You can use the code below to help you test your functions
-  # without needing to deploy first.
+#   # If you run this file directly via `ruby function.rb` the following code
+#   # will execute. You can use the code below to help you test your functions
+#   # without needing to deploy first.
   ENV['JWT_SECRET'] = 'NOTASECRET'
 
   # Call /token
