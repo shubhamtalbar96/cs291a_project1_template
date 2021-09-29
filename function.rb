@@ -54,7 +54,7 @@ def main(event:, context:)
     when "/"
       response(body: event, status: 405)
     when "/token"
-      case event["Content-Type"]
+      case event["headers"]["Content-Type"]
       when ""
         response(body: event, status: 415)
       when "APPLICATION/JSON"
