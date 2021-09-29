@@ -5,7 +5,9 @@ require 'jwt'
 require 'pp'
 
 def main(event:, context:)  
-  if event["httpMethod"] == "GET"
+  
+  case event["httpMethod"]
+  when "GET"
     case parsedEvent["path"]
     when "/"
       response(body: event, status: 403)
@@ -14,6 +16,45 @@ def main(event:, context:)
     else
       response(body: event, status: 404)
     end
+  
+  when "DELETE"
+    case parsedEvent["path"]
+    when "/"
+      response(body: event, status: 405)
+    when "/token"
+      response(body: event, status: 405)
+    end
+    
+  when "HEAD"
+    case parsedEvent["path"]
+    when "/"
+      response(body: event, status: 405)
+    end  
+
+  when "OPTIONS"
+    case parsedEvent["path"]
+    when "/"
+      response(body: event, status: 405)
+    end  
+
+  when "PATCH"
+    case parsedEvent["path"]
+    when "/"
+      response(body: event, status: 405)
+    end  
+
+  when "POST"
+    case parsedEvent["path"]
+    when "/"
+      response(body: event, status: 405)
+    end  
+
+  when "PUT"
+    case parsedEvent["path"]
+    when "/"
+      response(body: event, status: 405)
+    end  
+
   end
 end
 
