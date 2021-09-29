@@ -65,8 +65,20 @@ def main(event:, context:)
         response(body: event, status: 415)
       when "text/plain"
         response(body: event, status: 415)
+      when "multipart/form-data"
+        response(body: event, status: 415)
+      else
+
+        begin 
+          JSON.parse(event["body"]) 
+        rescue
+          response(body: event, status: 422)  
+        end
+
       end
+
     end  
+
 
   when "PUT"
     case event["path"]
