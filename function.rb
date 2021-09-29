@@ -5,8 +5,21 @@ require 'jwt'
 require 'pp'
 
 def main(event:, context:)
-  # You shouldn't need to use context, but its fields are explained here:
-  # https://docs.aws.amazon.com/lambda/latest/dg/ruby-context.html
+  
+  JSON parsedEvent = event.to_json
+
+  if parsedEvent["httpMethod"] == "GET"
+
+    case parsedEvent["path"]
+    when "/"
+      response(body: event, status: 403)
+    when "/token"
+      response(body: event, status: 405)
+    else
+      response(body: event, status: 404)
+    end
+  end
+
   response(body: event, status: 200)
 end
 
