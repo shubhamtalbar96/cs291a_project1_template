@@ -53,9 +53,7 @@ def main(event:, context:)
     case event["path"]
     when "/"
       response(body: event, status: 405)
-    
     when "/token"
-
       case event["Content-Type"]
       when ""
         response(body: event, status: 415)
@@ -67,7 +65,7 @@ def main(event:, context:)
         response(body: event, status: 415)
       when "text/plain"
         response(body: event, status: 415)
-
+      end
     end  
 
   when "PUT"
@@ -77,7 +75,6 @@ def main(event:, context:)
     when "/token"
       response(body: event, status: 405)
     end  
-
   end
 end
 
@@ -116,6 +113,4 @@ if $PROGRAM_NAME == __FILE__
                'httpMethod' => 'GET',
                'path' => '/'
              })
-end
-
 end
