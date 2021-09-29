@@ -8,7 +8,7 @@ def main(event:, context:)
   
   case event["httpMethod"]
   when "GET"
-    case parsedEvent["path"]
+    case event["path"]
     when "/"
       response(body: event, status: 403)
     when "/token"
@@ -18,7 +18,7 @@ def main(event:, context:)
     end
   
   when "DELETE"
-    case parsedEvent["path"]
+    case event["path"]
     when "/"
       response(body: event, status: 405)
     when "/token"
@@ -26,31 +26,31 @@ def main(event:, context:)
     end
     
   when "HEAD"
-    case parsedEvent["path"]
+    case event["path"]
     when "/"
       response(body: event, status: 405)
     end  
 
   when "OPTIONS"
-    case parsedEvent["path"]
+    case event["path"]
     when "/"
       response(body: event, status: 405)
     end  
 
   when "PATCH"
-    case parsedEvent["path"]
+    case event["path"]
     when "/"
       response(body: event, status: 405)
     end  
 
   when "POST"
-    case parsedEvent["path"]
+    case event["path"]
     when "/"
       response(body: event, status: 405)
     end  
 
   when "PUT"
-    case parsedEvent["path"]
+    case event["path"]
     when "/"
       response(body: event, status: 405)
     end  
