@@ -11,7 +11,7 @@ def main(event:, context:)
 
   for item in keys
     if item.casecmp contentType
-      event["headers"]["content-type"] = event["headers"][item]  
+      event["headers"]["content-type"] = event["headers"][item] 
     end
   end
 
@@ -63,6 +63,9 @@ def main(event:, context:)
     when "/"
       response(body: event, status: 405)
     when "/token"
+      print "event: "
+      print event
+
       case event["headers"]["content-type"]
       when ""
         response(body: event, status: 415)
