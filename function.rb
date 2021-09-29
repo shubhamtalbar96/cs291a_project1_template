@@ -79,7 +79,6 @@ def main(event:, context:)
     end  
 
   end
-
 end
 
 def response(body: nil, status: 200)
@@ -117,4 +116,6 @@ if $PROGRAM_NAME == __FILE__
                'httpMethod' => 'GET',
                'path' => '/'
              })
+end
+
 end
