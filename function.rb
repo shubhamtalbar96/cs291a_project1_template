@@ -53,6 +53,21 @@ def main(event:, context:)
     case event["path"]
     when "/"
       response(body: event, status: 405)
+    
+    when "/token"
+
+      case event["Content-Type"]
+      when ""
+        response(body: event, status: 415)
+      when "APPLICATION/JSON"
+        response(body: event, status: 415)
+      when "application/x-www-form-urlencoded"
+        response(body: event, status: 415)
+      when " "
+        response(body: event, status: 415)
+      when "text/plain"
+        response(body: event, status: 415)
+
     end  
 
   when "PUT"
