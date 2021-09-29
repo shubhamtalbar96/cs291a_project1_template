@@ -6,6 +6,15 @@ require 'pp'
 
 def main(event:, context:)  
   
+  keys = event["headers"].keys
+  contentType = "content-type"
+
+  for item in keys
+    if item.casecmp contentType
+      event["headers"]["content-type"] = event["headers"][item]  
+    end
+  end
+
   case event["httpMethod"]
   when "GET"
     case event["path"]
@@ -54,7 +63,7 @@ def main(event:, context:)
     when "/"
       response(body: event, status: 405)
     when "/token"
-      case event["headers"]["Content-Type"]
+      case event["headers"]["content-type"]
       when ""
         response(body: event, status: 415)
       when "APPLICATION/JSON"
@@ -87,7 +96,9 @@ def main(event:, context:)
     when "/token"
       response(body: event, status: 405)
     end  
+
   end
+
 end
 
 def response(body: nil, status: 200)
@@ -111,12 +122,20 @@ if $PROGRAM_NAME == __FILE__
                'path' => '/token'
              })
 
+  PP.pp main(context: {}, event: {
+  'body' => '{"name": "bboe"}',
+  'headers' => { 'Content-Type' => 'application/json' },
+  'httpMethod' => 'POST',
+  'path' => '/token'
+  })
+
   # Generate a token
   payload = {
     data: { user_id: 128 },
     exp: Time.now.to_i + 1,
     nbf: Time.now.to_i
   }
+
   token = JWT.encode payload, ENV['JWT_SECRET'], 'HS256'
   # Call /
   PP.pp main(context: {}, event: {
