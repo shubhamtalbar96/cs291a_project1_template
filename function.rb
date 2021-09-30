@@ -79,7 +79,7 @@ def main(event:, context:)
 
       token = JWT.encode payload, ENV['JWT_SECRET'], 'HS256'
 
-      return response(body: {"token" => token}, status: 201) 
+      return response(body: {"token" => token.to_json}, status: 201) 
     end
   else
     return response(body: nil, status: 405)
@@ -100,12 +100,12 @@ if $PROGRAM_NAME == __FILE__
   ENV['JWT_SECRET'] = 'NOTASECRET'
 
   # # Call /token
-  # PP.pp main(context: {}, event: {
-  #              'body' => '{"name": "bboe"}',
-  #              'headers' => { 'Content-Type' => '' },
-  #              'httpMethod' => 'POST',
-  #              'path' => '/token'
-  #            })
+  PP.pp main(context: {}, event: {
+               'body' => '{"name": "bboe"}',
+               'headers' => { 'Content-Type' => 'application/json' },
+               'httpMethod' => 'POST',
+               'path' => '/token'
+             })
 
   # Generate a token
   payload = {
@@ -120,6 +120,6 @@ if $PROGRAM_NAME == __FILE__
                'headers' => { 'Authorization' => "Bearer #{token}",
                               'CONtent-Type' => 'application/json' },
                'httpMethod' => 'GET',
-               'path' => '/token'
+               'path' => '/'
              })
 end
