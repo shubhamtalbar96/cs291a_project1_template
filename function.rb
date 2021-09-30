@@ -39,7 +39,7 @@ def main(event:, context:)
       end
 
       token = event["headers"]["authorization"].split(" ")[1]    
-      payload = JWT.decode(token, 'NOTASECRET')
+      payload = JWT.decode(token, "ITSASECRET")
     rescue
       return response(body: nil, status: 403) 
     else
@@ -78,7 +78,7 @@ def main(event:, context:)
         nbf: Time.now.to_i + 2
       }
 
-      token = JWT.encode payload, ENV['JWT_SECRET'], 'HS256'
+      token = JWT.encode payload, "ITSASECRET", 'HS256'
 
       return response(body: {"token" => token}, status: 201) 
     end
