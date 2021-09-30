@@ -44,13 +44,16 @@ def main(event:, context:)
       if( event["headers"]["authorization"].split(" ")[0] != "Bearer:" )
         return response(body: nil, status: 403)
       end
-      
+
     rescue JWT::DecodeError => e
       return response(body: nil, status: 403) 
 
     rescue JWT::ImmatureSignature, JWT::ExpiredSignature => e
       return response(body: nil, status: 401)
     
+    rescue 
+      return response(body: nil, status: 403)
+
     else
       # print "payload: "
       # print payload
@@ -133,7 +136,7 @@ if $PROGRAM_NAME == __FILE__
   #            })
 
   PP.pp main(context: {}, event: {
-                'headers' => { 'AuthoRIZation' => "NotBearer: foobar}",
+                'headers' => { 'AuthoRIZation' => nil,
                                 'CONtent-Type' => 'application/json' },
                 'httpMethod' => 'GET',
                 'path' => '/'
