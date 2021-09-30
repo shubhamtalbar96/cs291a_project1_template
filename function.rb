@@ -18,9 +18,10 @@ def main(event:, context:)
     end
   end
 
-  # print "event: "
-  # print event
-  # print "\n\n"
+  print "event: "
+  print event
+  print "\n\n"
+
   case event["httpMethod"]
   when "GET"
     begin 
@@ -100,12 +101,12 @@ if $PROGRAM_NAME == __FILE__
   ENV['JWT_SECRET'] = 'NOTASECRET'
 
   # # Call /token
-  PP.pp main(context: {}, event: {
-               'body' => '{"name": "bboe"}',
-               'headers' => { 'Content-Type' => 'application/json' },
-               'httpMethod' => 'POST',
-               'path' => '/token'
-             })
+  # PP.pp main(context: {}, event: {
+  #              'body' => '{"name": "bboe"}',
+  #              'headers' => { 'Content-Type' => 'application/json' },
+  #              'httpMethod' => 'POST',
+  #              'path' => '/token'
+  #            })
 
   # Generate a token
   payload = {
@@ -116,10 +117,18 @@ if $PROGRAM_NAME == __FILE__
 
   token = JWT.encode payload, ENV['JWT_SECRET'], 'HS256'
   # Call /
+  # PP.pp main(context: {}, event: {
+  #              'headers' => { 'AuthoRIZation' => "Bearer #{token}",
+  #                             'CONtent-Type' => 'application/json' },
+  #              'httpMethod' => 'GET',
+  #              'path' => '/'
+  #            })
+
   PP.pp main(context: {}, event: {
-               'headers' => { 'Authorization' => "Bearer #{token}",
-                              'CONtent-Type' => 'application/json' },
-               'httpMethod' => 'GET',
-               'path' => '/'
-             })
+                'headers' => { 'AuthoRIZation' => "Bearer: #{token}}",
+                                'CONtent-Type' => 'application/json' },
+                'httpMethod' => 'GET',
+                'path' => '/'
+              })
+  
 end
