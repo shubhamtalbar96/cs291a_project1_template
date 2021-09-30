@@ -38,12 +38,12 @@ def main(event:, context:)
         return response(body: nil, status: 404)
       end
 
-      token = event["headers"]["authorization"].split(" ")[1]    
-      payload = JWT.decode(token, "ITSASECRET")
-
-      if( event["headers"]["authorization"].split(" ")[0] != "Bearer:" )
+      if( event["headers"]["authorization"].split(" ")[0] != "Bearer" )
         return response(body: nil, status: 403)
       end
+
+      token = event["headers"]["authorization"].split(" ")[1]    
+      payload = JWT.decode(token, "ITSASECRET")
 
     rescue JWT::ImmatureSignature, JWT::ExpiredSignature => e
       return response(body:nil, status: 401)
