@@ -25,14 +25,18 @@ def main(event:, context:)
   when "GET"
     begin 
 
+      # print "event[path] : "
+      # print event["path"]
+      # print "\n\n"
+
       if event["path"] != "/"
-        response(body: nil, status: 404)
+        return response(body: nil, status: 404)
       end
 
       token = event["headers"]["authorization"].split(" ")[1]    
       payload = JWT.decode(token, 'NOTASECRET')
     rescue
-      response(body: nil, status: 403) 
+      return response(body: nil, status: 403) 
     else
       # print "payload: "
       # print payload
@@ -43,10 +47,10 @@ def main(event:, context:)
       # print "\n\n\n"
 
       if Time.now.to_i > payload[0]["exp"]
-        response(body: nil, status: 401)
+        return response(body: nil, status: 401)
       end
       
-      response(body: payload[0]["data"], status: 200)
+      return response(body: payload[0]["data"], status: 200)
     end
   when "POST"
     if event["headers"]["content-type"] != "application/json"
@@ -56,7 +60,7 @@ def main(event:, context:)
     begin 
       JSON.parse(event["body"]) 
     rescue
-      response(body: event, status: 422)
+      return response(body: event, status: 422)
     else
       payload = {
         data: event["body"],
@@ -66,10 +70,10 @@ def main(event:, context:)
 
       token = JWT.encode payload, ENV['JWT_SECRET'], 'HS256'
 
-      response(body: {"token" => token}, status: 201) 
+      return response(body: {"token" => token}, status: 201) 
     end
   else
-    response(body: nil, status: 405)
+    return response(body: nil, status: 405)
   end
 end
 
