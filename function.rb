@@ -79,8 +79,7 @@ def main(event:, context:)
       }
 
       token = JWT.encode payload, "ITSASECRET", 'HS256'
-      body = {"body": token, "statusCode": 201, "isBase64Encoded": true, "headers": event['headers']}
-      return body 
+      return response(body: token, status: 201) 
     end
   else
     return response(body: nil, status: 405)
