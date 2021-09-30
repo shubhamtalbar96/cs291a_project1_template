@@ -44,7 +44,13 @@ def main(event:, context:)
       if( event["headers"]["authorization"].split(" ")[0] != "Bearer:" )
         return response(body: nil, status: 403)
       end
-      
+
+    rescue JWT::ImmatureSignature, JWT::ExpiredSignature => e
+      return response(body:nil, status: 401)
+
+    rescue JWT::DecodeError => e
+      return response(body: e, status: 403 )
+    
     rescue 
       return response(body: nil, status: 403)
 
@@ -58,9 +64,9 @@ def main(event:, context:)
       # print "\n\n\n"
 
 
-      if Time.now.to_i > payload[0]["exp"]
-        return response(body: nil, status: 401)
-      end
+      # if Time.now.to_i > payload[0]["exp"]
+      #   return response(body: nil, status: 401)
+      # end
       
       return response(body: payload[0]["data"], status: 200)
     end
