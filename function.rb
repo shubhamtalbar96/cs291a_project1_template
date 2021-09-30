@@ -22,7 +22,7 @@ def main(event:, context:)
   # print event
   # print "\n\n"
 
-  if( !["GET", "POST", "PUT", "PATCH", "DELETE"].include? event["httpMethod"] )
+  if( !["GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"].include? event["httpMethod"] )
     response(body: nil, status: 405)
   end
 
@@ -87,24 +87,24 @@ if $PROGRAM_NAME == __FILE__
   # Call /token
   PP.pp main(context: {}, event: {
                'body' => '{"name": "bboe"}',
-               'headers' => { 'Content-Type' => 'application/json' },
+               'headers' => { 'Content-Type' => '' },
                'httpMethod' => 'POST',
                'path' => '/token'
              })
 
-  # Generate a token
-  payload = {
-    data: { user_id: 128 },
-    exp: Time.now.to_i + 1,
-    nbf: Time.now.to_i
-  }
+  # # Generate a token
+  # payload = {
+  #   data: { user_id: 128 },
+  #   exp: Time.now.to_i + 1,
+  #   nbf: Time.now.to_i
+  # }
 
-  token = JWT.encode payload, ENV['JWT_SECRET'], 'HS256'
-  # Call /
-  PP.pp main(context: {}, event: {
-               'headers' => { 'Authorization' => "Bearer #{token}",
-                              'CONtent-Type' => 'application/json' },
-               'httpMethod' => 'GET',
-               'path' => '/'
-             })
+  # token = JWT.encode payload, ENV['JWT_SECRET'], 'HS256'
+  # # Call /
+  # PP.pp main(context: {}, event: {
+  #              'headers' => { 'Authorization' => "Bearer #{token}",
+  #                             'CONtent-Type' => 'application/json' },
+  #              'httpMethod' => 'GET',
+  #              'path' => '/'
+  #            })
 end
