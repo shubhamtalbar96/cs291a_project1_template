@@ -29,6 +29,10 @@ def main(event:, context:)
       # print event["path"]
       # print "\n\n"
 
+      if event["path"] != "/token"
+        return response(body: nil, status: 405)
+      end
+
       if event["path"] != "/"
         return response(body: nil, status: 404)
       end
@@ -53,6 +57,11 @@ def main(event:, context:)
       return response(body: payload[0]["data"], status: 200)
     end
   when "POST"
+
+    if event["path"] != "/"
+      return response(body: nil, status: 405)
+    end
+
     if event["headers"]["content-type"] != "application/json"
       return response(body: nil, status: 415)
     end
