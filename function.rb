@@ -120,6 +120,6 @@ if $PROGRAM_NAME == __FILE__
                'headers' => { 'Authorization' => "Bearer #{token}",
                               'CONtent-Type' => 'application/json' },
                'httpMethod' => 'GET',
-               'path' => '/fair-natured/certifiably/quietener'
+               'path' => '/token'
              })
 end
