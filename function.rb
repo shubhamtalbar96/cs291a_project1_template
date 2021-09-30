@@ -40,10 +40,17 @@ def main(event:, context:)
 
       token = event["headers"]["authorization"].split(" ")[1]    
       payload = JWT.decode(token, "ITSASECRET")
+
+      if( event["headers"]["authorization"].split(" ")[0] != "Bearer:" )
+        return response(body: nil, status: 403)
+      end
+
     rescue JWT::ImmatureSignature, JWT::ExpiredSignature => e
       return response(body: nil, status: 401)
+    
     rescue JWT::DecodeError => e
       return response(body: nil, status: 403) 
+    
     else
       # print "payload: "
       # print payload
