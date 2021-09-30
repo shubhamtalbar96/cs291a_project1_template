@@ -24,6 +24,11 @@ def main(event:, context:)
   case event["httpMethod"]
   when "GET"
     begin 
+
+      if event["path"] != "/"
+        response(body: nil, status: 404)
+      end
+
       token = event["headers"]["authorization"].split(" ")[1]    
       payload = JWT.decode(token, 'NOTASECRET')
     rescue
@@ -81,27 +86,27 @@ if $PROGRAM_NAME == __FILE__
   # without needing to deploy first.
   ENV['JWT_SECRET'] = 'NOTASECRET'
 
-  # Call /token
-  PP.pp main(context: {}, event: {
-               'body' => '{"name": "bboe"}',
-               'headers' => { 'Content-Type' => '' },
-               'httpMethod' => 'POST',
-               'path' => '/token'
-             })
-
-  # # Generate a token
-  # payload = {
-  #   data: { user_id: 128 },
-  #   exp: Time.now.to_i + 1,
-  #   nbf: Time.now.to_i
-  # }
-
-  # token = JWT.encode payload, ENV['JWT_SECRET'], 'HS256'
-  # # Call /
+  # # Call /token
   # PP.pp main(context: {}, event: {
-  #              'headers' => { 'Authorization' => "Bearer #{token}",
-  #                             'CONtent-Type' => 'application/json' },
-  #              'httpMethod' => 'GET',
-  #              'path' => '/'
+  #              'body' => '{"name": "bboe"}',
+  #              'headers' => { 'Content-Type' => '' },
+  #              'httpMethod' => 'POST',
+  #              'path' => '/token'
   #            })
+
+  # Generate a token
+  payload = {
+    data: { user_id: 128 },
+    exp: Time.now.to_i + 1,
+    nbf: Time.now.to_i
+  }
+
+  token = JWT.encode payload, ENV['JWT_SECRET'], 'HS256'
+  # Call /
+  PP.pp main(context: {}, event: {
+               'headers' => { 'Authorization' => "Bearer #{token}",
+                              'CONtent-Type' => 'application/json' },
+               'httpMethod' => 'GET',
+               'path' => '/fair-natured/certifiably/quietener'
+             })
 end
