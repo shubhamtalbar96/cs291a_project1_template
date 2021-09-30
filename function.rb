@@ -21,11 +21,6 @@ def main(event:, context:)
   # print "event: "
   # print event
   # print "\n\n"
-
-  if( !["GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"].include? event["httpMethod"] )
-    response(body: nil, status: 405)
-  end
-
   case event["httpMethod"]
   when "GET"
     begin 
@@ -68,6 +63,8 @@ def main(event:, context:)
 
       response(body: {"token" => token}, status: 201) 
     end
+  else
+    response(body: nil, status: 405)
   end
 end
 
