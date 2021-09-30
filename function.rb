@@ -40,7 +40,9 @@ def main(event:, context:)
 
       token = event["headers"]["authorization"].split(" ")[1]    
       payload = JWT.decode(token, "ITSASECRET")
-    rescue
+    rescue JWT::ImmatureSignature, JWT::ExpiredSignature => e
+      return response(body: nil, status: 401)
+    rescue JWT::DecodeError => e
       return response(body: nil, status: 403) 
     else
       # print "payload: "
@@ -51,9 +53,9 @@ def main(event:, context:)
       # print payload[0]["exp"]
       # print "\n\n\n"
 
-      if Time.now.to_i > payload[0]["exp"]
-        return response(body: nil, status: 401)
-      end
+      # if Time.now.to_i > payload[0]["exp"]
+      #   return response(body: nil, status: 401)
+      # end
       
       return response(body: payload[0]["data"], status: 200)
     end
