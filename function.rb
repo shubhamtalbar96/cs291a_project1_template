@@ -79,7 +79,7 @@ def main(event:, context:)
 
       token = JWT.encode payload, ENV['JWT_SECRET'], 'HS256'
 
-      return response(body: {"token" => token.to_json}, status: 201) 
+      return response(body: {"token" => token}, status: 201) 
     end
   else
     return response(body: nil, status: 405)
