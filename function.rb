@@ -29,7 +29,7 @@ def main(event:, context:)
       # print event["path"]
       # print "\n\n"
 
-      if event["path"] != "/token"
+      if event["path"] == "/token"
         return response(body: nil, status: 405)
       end
 
@@ -58,7 +58,7 @@ def main(event:, context:)
     end
   when "POST"
 
-    if event["path"] != "/"
+    if event["path"] == "/"
       return response(body: nil, status: 405)
     end
 
