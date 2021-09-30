@@ -44,6 +44,7 @@ def main(event:, context:)
       if( event["headers"]["authorization"].split(" ")[0] != "Bearer:" )
         return response(body: nil, status: 403)
       end
+      
     rescue 
       return response(body: nil, status: 403)
 
@@ -55,6 +56,7 @@ def main(event:, context:)
       # print "expiry: "
       # print payload[0]["exp"]
       # print "\n\n\n"
+
 
       if Time.now.to_i > payload[0]["exp"]
         return response(body: nil, status: 401)
